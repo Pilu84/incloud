@@ -1,5 +1,7 @@
 import * as React from 'react';
 import style from './style.less';
+import { Services } from '../services/services';
+
 
 interface TermineProps extends React.ClassAttributes<any> {
     timeValue: string;
@@ -9,6 +11,7 @@ interface TermineState extends React.ClassAttributes<any> {
     timeString: string;
     desc: string;
     error: boolean;
+    message: string;
 }
 
 export class Termine extends React.Component<TermineProps, TermineState> {
@@ -18,7 +21,8 @@ export class Termine extends React.Component<TermineProps, TermineState> {
         this.state = {
             timeString: this.props.timeValue ? this.props.timeValue : '',
             desc: '',
-            error: false
+            error: false,
+            message: ''
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,6 +40,17 @@ export class Termine extends React.Component<TermineProps, TermineState> {
 
         if (this.state.desc === '') {
             this.setState({error: true});
+        } else {
+            const services = new Services;
+            const data = {
+                time: this.state.timeString,
+                descript: this.state.desc
+            }
+            services.setData('setdesc', data, (res: any) => {
+                if (res.success) {
+                    this.setState({message: 'Succes', desc: '', timeString: ''});
+                }
+            });
         }
 
     }
@@ -43,11 +58,17 @@ export class Termine extends React.Component<TermineProps, TermineState> {
 
     render() {
 
-        const { timeString, error } = this.state;
+        const { timeString, error, message } = this.state;
 
         return (
             <div className={style.timeWrapper}>
                 <h2>Book a time</h2>
+
+                {message &&
+                    <div className={style.succes}>
+                        <p>Succes</p>
+                    </div>
+                }
 
                 <form onSubmit={this.handleSubmit}>
                     {error &&

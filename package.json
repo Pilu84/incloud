@@ -4,16 +4,19 @@
   "description": "Incloud Test",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --watch --mode development --debug --config webpack.app.config.js",
+    "start": "concurrently \"cd api && npm run start\" \"npm run start-front\"",
+    "start-front": "webpack-dev-server --watch --mode development --debug --config webpack.app.config.js",
     "build": "webpack-cli -p --config webpack.app.config.js"
   },
   "author": "OliverBunda <bundaoliver@gmail.com>",
   "license": "MIT",
+  "proxy": "http://localhost:8000/",
   "dependencies": {
     "@babel/core": "^7.9.6",
     "@types/classnames": "^2.2.11",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.6",
+    "concurrently": "^5.3.0",
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
