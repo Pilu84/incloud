@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { Tracker } from '../content/tracker';
+import style from './main.less';
+
 
 interface MainState extends React.ClassAttributes<any> {
     dummy?: any;
@@ -14,7 +17,9 @@ export class Main extends React.Component<{}, MainState> {
     render() {
 
         return (
-            <h1>Hello World!</h1>
+            <div className={style.main}>
+                <Tracker />
+            </div>
         );
     }
 
