@@ -1,0 +1,36 @@
+@import '../main/main.less';
+
+
+.required {
+    color: red;
+}
+
+.error {
+    .required;
+}
+
+.timeWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    input[type=submit] {
+        margin-top: 10px;
+    }
+
+    .description {
+        margin-top: 15px;
+
+    }
+}
+

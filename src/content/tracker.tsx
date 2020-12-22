@@ -1,13 +1,16 @@
 import * as React from 'react';
-import style from './tracker.less';
 
+
+interface TrackerProps extends React.ClassAttributes<any> {
+    getTrackerNumer(trackertime: string): void;
+}
 interface TrackerState extends React.ClassAttributes<any> {
     running: boolean;
     trackerNum: number;
     trackerString: string;
 }
 
-export class Tracker extends React.Component<{}, TrackerState> {
+export class Tracker extends React.Component<TrackerProps, TrackerState> {
     constructor(props: any) {
         super(props);
 
@@ -45,10 +48,18 @@ export class Tracker extends React.Component<{}, TrackerState> {
                                 Start
                             </button>
                             {trackerNum !== 0 &&
-                                <button
-                                    onClick={() => this.setState({ trackerNum: 0 })}>
-                                    Clear
+                                <>
+                                    <button
+                                        onClick={() => this.setState({ trackerNum: 0 })}>
+                                        Clear
                             </button>
+
+                                    <button
+                                        onClick={() => this.props.getTrackerNumer(trackerString)}
+                                    >
+                                        Get the tracker as time
+                                    </button>
+                                </>
                             }
                         </>
                     }
@@ -89,12 +100,12 @@ export class Tracker extends React.Component<{}, TrackerState> {
         }
         if (formatNum > 60) {
             minutes = Math.floor(formatNum / 60);
-            formatNum = formatNum - (minutes * 60);
+            if (minutes === 60) {
+                minutes = 0;
+            }
         }
 
-        if (hours === 60) {
-            hours = 0;
-        }
+
         const hoursString = hours.toString().length === 2 ? hours.toString() : '0' + hours.toString();
         const minutesString = minutes.toString().length === 2 ? minutes.toString() : '0' + minutes.toString();
         const secondString = seconds.toString().length === 2 ? seconds.toString() : '0' + seconds.toString();
